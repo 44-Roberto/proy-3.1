@@ -1,4 +1,4 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -24,7 +24,7 @@ import javax.swing.JOptionPane;
  * @author AndresLima
  */
 public class ArbolBinario {
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH;mm;ss");
     
     public void Add(String key, String info, String pathMaster, String descPath, int keySize, String user){
         File master = new File(pathMaster);
@@ -50,16 +50,18 @@ public class ArbolBinario {
             String[] temp = reg.split("[|]");
             String keyReg = getKey(reg, keySize);
             String puntero = "";
+            boolean dir = true;
             if(key.compareTo(keyReg) < 0){
                 puntero = temp[0];
+                dir = true;
             }else{
                 puntero = temp[1];
+                dir = false;
             }
-            int pos = 0;
-            boolean dir = true;
+            int pos = 0;            
             while(!puntero.equals("null")){
-                pos = Integer.parseInt(puntero);
-                reg = lineas.get(pos - 1);
+                pos = Integer.parseInt(puntero) -1;
+                reg = lineas.get(pos);
                 temp = reg.split("[|]");
                 keyReg = getKey(reg, keySize);
                 if(key.compareTo(keyReg) < 0){
@@ -77,8 +79,8 @@ public class ArbolBinario {
                 temp[1] = cantidad + "";
             }        
             String aux = String.join("|", temp);
-            lineas.remove(pos - 1);
-            lineas.add(pos -1,aux);
+            lineas.remove(pos);
+            lineas.add(pos,aux);
             lineas.add(data);
             master.delete();
             try {
@@ -93,8 +95,8 @@ public class ArbolBinario {
         }
         
         fechaMod = dtf.format(LocalDateTime.now()); //fecha Modificacion
-        descriptor[3][1] = user;
-        descriptor[4][1] = fechaMod;
+        descriptor[3][1] = fechaMod;
+        descriptor[4][1] = user;
         descriptor[5][1] = cantidad + "";
         descriptor[6][1] = cantidad + "";
         setDescriptor(descriptor, descPath, 8);
